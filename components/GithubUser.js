@@ -2,11 +2,12 @@ import UserProfile from './UserProfile'
 import UserBio from './UserBio'
 import UserStats from './UserStats'
 import UserData from './UserData'
+import UserProps from './UserProps'
 
 const GithubUser = (props) => {
   const date = new Date(props.data.created_at)
   const newDate = date.toDateString(4, 10).slice(4, 15)
-  console.log( "seris",props.repos[1].name)
+  console.log( "seris",props.repos[1]?.name)
   return (
     <div className="mx-auto mt-6 flex max-w-sm min-h-[470px] flex-col items-end justify-between  space-y-4 rounded-lg bg-gray-200 py-6 transition duration-300 ease-in dark:bg-[#2b365e] md:min-h-fit md:max-w-2xl">
        <UserProfile
@@ -29,6 +30,11 @@ const GithubUser = (props) => {
           twitterUsername={props.data.twitter_username}
           blog={props.data.blog}
           company={props.data.company}
+        />
+
+      <UserProps
+          name={props.repos[1]?.name}
+          description={props.repos[1]?.description}
         />
       </div> 
     </div>

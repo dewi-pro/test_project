@@ -42,11 +42,15 @@ export default function Home() {
         setRepos(rep)
         setLoading(false)
       })
+      console.log("anima",repos)
   }, [userName]);
 
   if(!data) (
   <p>No Profile data.</p>
   )
+  if(!repos) (
+    <p>No repository data.</p>
+    )
 
   return (
     <div className="min-h-screen bg-gray-50 py-7 dark:bg-[#1e253f]">
