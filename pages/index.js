@@ -23,27 +23,42 @@ export default function Home() {
       setUserName(userRef.current.value);
     }
   }
-  useEffect(() => {
-    setLoading(true)
-    if (userName) {
-      API = `https://api.github.com/users/${userName}`
-    }
+  useEffect( () => {
+    
+    async function fetchData() {
+      // You can await here
+      setLoading(true)
+      if (userName) {
+        API = `https://api.github.com/users/${userName}`
+      }
+      try {
+        const res =  await Promise.all([
+          fetch(API)
+        ])
+         const data = await Promise.all(res.map(r => r.json()))
+         console.log('user =>',data);
+         setData(data)
 
-    fetch(API)
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data)
-        setLoading(false)
-      })
-      let repo = data.repos_url
-      fetch(repo)
-      .then((res) => res.json())
-      .then((rep) => {
-        setRepos(rep)
-        setLoading(false)
-      })
-      console.log("anima",repos)
+         let repo = data[0].repos_url
+         const repos =  await Promise.all([
+          fetch(repo)
+        ])
+        const repohsl = await Promise.all(repos.map(r => r.json()))
+        setRepos(repohsl)
+
+         console.log('repos =>',repohsl);
+      } catch {
+        throw Error("Promise failed");
+      }
+      // ...
+    }
+    setLoading(true)
+    fetchData();
+
+    setLoading(false)
+    
   }, [userName]);
+  console.log("anima",repos)
 
   if(!data) (
   <p>No Profile data.</p>
@@ -51,7 +66,7 @@ export default function Home() {
   if(!repos) (
     <p>No repository data.</p>
     )
-
+//console.log("tr",repos)
   return (
     <div className="min-h-screen bg-gray-50 py-7 dark:bg-[#1e253f]">
       <Head>
@@ -68,7 +83,10 @@ export default function Home() {
         userRef={userRef}
         handleKeyPress={handleKeyPress}
       />
-      <GithubUser data={data} repos={repos} />
+      <GithubUser 
+      data={data} 
+      repos={repos}
+       />
       
       </>
       }
