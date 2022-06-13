@@ -11,6 +11,7 @@ export default function Home() {
   const userRef = useRef(null)
   const [userName, setUserName] = useState('')
   const [data, setData] = useState('')
+  const [repos, setRepos] = useState('')
   const [isLoading, setLoading] = useState(false)
 
   function handleClick() {
@@ -32,6 +33,13 @@ export default function Home() {
       .then((res) => res.json())
       .then((data) => {
         setData(data)
+        setLoading(false)
+      })
+      let repo = data.repos_url
+      fetch(repo)
+      .then((res) => res.json())
+      .then((rep) => {
+        setRepos(rep)
         setLoading(false)
       })
   }, [userName]);
@@ -56,7 +64,8 @@ export default function Home() {
         userRef={userRef}
         handleKeyPress={handleKeyPress}
       />
-      <GithubUser data={data} />
+      <GithubUser data={data} repos={repos} />
+      
       </>
       }
     </div>
