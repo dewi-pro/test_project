@@ -14,6 +14,7 @@ const SearchBar = ({ handleClick ,handleKeyPress, userRef}) => {
         onKeyPress={handleKeyPress}
       />
       <button
+      
         onClick={handleClick}
         className=" text-md mx-auto h-10 rounded-md bg-gray-50 px-4 font-mono font-medium text-blue-600 shadow-xl transition duration-300 ease-in hover:bg-blue-500 hover:text-blue-100 dark:bg-[#5176ff] dark:text-white dark:hover:bg-blue-600 "
       >
